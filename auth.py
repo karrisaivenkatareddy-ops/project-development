@@ -9,21 +9,18 @@ users = {}
 
 @router.post("/register")
 def register(username: str, password: str):
+    if username in users:
+        raise HTTPException(
+            status_code=400,
+            detail="Username already exists"
+        )
 
-```
-if username in users:
-    raise HTTPException(
-        status_code=400,
-        detail="Username already exists"
-    )
+    users[username] = password
 
-users[username] = password
-
-return {
-    "message": "User registered successfully",
-    "username": username
-}
-```
+    return {
+        "message": "User registered successfully",
+        "username": username
+    }
 
 @router.post("/login")
 def login(username: str, password: str):

@@ -4,8 +4,25 @@ const router = express.Router();
 
 const authController = require("../controllers/authController");
 
-router.post("/register", authController.register);
+const authenticateToken = require("../middleware/authMiddleware");
 
-router.post("/login", authController.login);
+// Register
+router.post(
+    "/register",
+    authController.register
+);
+
+// Login
+router.post(
+    "/login",
+    authController.login
+);
+
+// Current logged-in user
+router.get(
+    "/me",
+    authenticateToken,
+    authController.getMe
+);
 
 module.exports = router;

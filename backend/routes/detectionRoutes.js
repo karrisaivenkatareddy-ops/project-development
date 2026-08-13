@@ -1,11 +1,28 @@
-const express=require("express");
+const express = require("express");
 
-const router=express.Router();
+const router = express.Router();
 
-const detectionController=require("../controllers/detectionController");
+const detectionController =
+    require("../controllers/detectionController");
 
-router.post("/run",detectionController.runDetection);
+const authenticateToken =
+    require("../middleware/authMiddleware");
 
-router.get("/logs",detectionController.getLogs);
 
-module.exports=router;
+// Run AI detection
+router.post(
+    "/run",
+    authenticateToken,
+    detectionController.runDetection
+);
+
+
+// Get detection logs
+router.get(
+    "/logs",
+    authenticateToken,
+    detectionController.getLogs
+);
+
+
+module.exports = router;

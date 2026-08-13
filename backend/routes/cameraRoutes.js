@@ -4,8 +4,47 @@ const router = express.Router();
 
 const cameraController = require("../controllers/cameraController");
 
-router.get("/",cameraController.getCameras);
+const authenticateToken = require("../middleware/authMiddleware");
 
-router.post("/add",cameraController.addCamera);
 
-module.exports=router;
+// Get all cameras
+router.get(
+    "/",
+    authenticateToken,
+    cameraController.getCameras
+);
+
+
+// Get one camera
+router.get(
+    "/:id",
+    authenticateToken,
+    cameraController.getCameraById
+);
+
+
+// Add camera
+router.post(
+    "/",
+    authenticateToken,
+    cameraController.addCamera
+);
+
+
+// Update camera
+router.put(
+    "/:id",
+    authenticateToken,
+    cameraController.updateCamera
+);
+
+
+// Delete camera
+router.delete(
+    "/:id",
+    authenticateToken,
+    cameraController.deleteCamera
+);
+
+
+module.exports = router;
